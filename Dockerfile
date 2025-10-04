@@ -15,6 +15,7 @@ ENV PYTHONUNBUFFERED=1 \
     DOCKER=true \
     GIT_PYTHON_REFRESH=quiet
 
+# RUN 1: Установка системных зависимостей (нет завершающего '\')
 RUN apt-get update && apt-get upgrade -y && apt-get install --no-install-recommends -y \
     build-essential \
     curl \
@@ -32,11 +33,14 @@ RUN apt-get update && apt-get upgrade -y && apt-get install --no-install-recomme
     openssh-server \
     python3 \
     python3-dev \
-    python3-pip \
+    python3-pip 
+
+# RUN 2: Установка Node.js (Теперь это отдельная, корректная команда RUN)
 RUN curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh && \
     bash nodesource_setup.sh && \
     apt-get install -y nodejs && \
     rm nodesource_setup.sh
+    
 RUN rm -rf /var/lib/apt/lists/ /var/cache/apt/archives/ /tmp/*
 
 WORKDIR /data
